@@ -32,7 +32,7 @@ public class InsertDatabase {
         String sql = "INSERT INTO category(category_id, category_name) VALUES (?, ?);";
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, 3);
+            stmt.setInt(1, 4);
             stmt.setString(2, "candy");
             int status = stmt.executeUpdate();
 //            ResultSet key = stmt.getGeneratedKeys();

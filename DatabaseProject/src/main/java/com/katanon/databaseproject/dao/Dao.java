@@ -17,5 +17,5 @@ public interface Dao<T> {
     T save(T obj);
     T update(T obj);
     int delete(T obj);
-    
+    List<T> getAll (String where, String order);
 }

@@ -71,7 +71,7 @@ public class UserDao implements Dao<User> {
 
     @Override
     public User save(User obj) {
-        String sql = "INSERT INTO user (user_name, user_gender, user_password, user_role)" 
+        String sql = "INSERT INTO user (user_name, user_gender, user_password, user_role)"
                 + "VALUES(?,?,?,?)";
         Connection conn = DatabaseHelper.getConnect();
         try {
@@ -80,11 +80,11 @@ public class UserDao implements Dao<User> {
             stmt.setString(2, obj.getGender());
             stmt.setString(3, obj.getPassword());
             stmt.setInt(4, obj.getRole());
-            System.out.println(stmt);
+//            System.out.println(stmt);
             stmt.executeUpdate();
             int id = DatabaseHelper.getInsertedId(stmt);
             obj.setId(id);
-            
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             return null;
@@ -94,12 +94,40 @@ public class UserDao implements Dao<User> {
 
     @Override
     public User update(User obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "UPDATE user"
+                + " SET user_name = ?, user_gender = ?, user_password = ?, user_role = ?"
+                + " WHERE user_id = ?";
+        Connection conn = DatabaseHelper.getConnect();
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, obj.getName());
+            stmt.setString(2, obj.getGender());
+            stmt.setString(3, obj.getPassword());
+            stmt.setInt(4, obj.getRole());
+            stmt.setInt(5, obj.getId());
+//            System.out.println(stmt);
+            int ret = stmt.executeUpdate();
+            System.out.println(ret);
+            return obj;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
     }
 
     @Override
     public int delete(User obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        String sql = "DELETE FROM user WHERE user_id=?";
+        Connection conn = DatabaseHelper.getConnect();
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, obj.getId());
+            int ret = stmt.executeUpdate();
+            return ret;
 
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return -1;
+    }
 }

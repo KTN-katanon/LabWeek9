@@ -30,12 +30,7 @@ public class UserDao implements Dao<User> {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                user = new User();
-                user.setId(rs.getInt("user_id"));
-                user.setName(rs.getString("user_name"));
-                user.setRole(rs.getInt("user_role"));
-                user.setGender(rs.getString("user_gender"));
-                user.setPassword(rs.getString("user_password"));
+                user = User.fromRS(rs);
             }
 
         } catch (SQLException ex) {
@@ -43,7 +38,9 @@ public class UserDao implements Dao<User> {
         }
         return user;
     }
-
+    
+    
+    
     @Override
     public List<User> getAll() {
         ArrayList<User> list = new ArrayList();
@@ -54,13 +51,46 @@ public class UserDao implements Dao<User> {
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                User user = new User();
-                user.setId(rs.getInt("user_id"));
-                user.setName(rs.getString("user_name"));
-                user.setRole(rs.getInt("user_role"));
-                user.setGender(rs.getString("user_gender"));
-                user.setPassword(rs.getString("user_password"));
+                User user = User.fromRS(rs);
 
+                list.add(user);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return list;
+    }
+    
+    
+    public User getByName(String name) {
+        User user = null;
+        String sql = "SELECT * FROM user WHERE user_id=?";
+        Connection conn = DatabaseHelper.getConnect();
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                user = User.fromRS(rs);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return user;
+    }
+    
+    public List<User> getAll (String where, String order) {
+        ArrayList<User> list = new ArrayList();
+        String sql = "SELECT * FROM user where " + where + "ORDER BY" + order;
+        Connection conn = DatabaseHelper.getConnect();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                User user = User.fromRS(rs);
+                
                 list.add(user);
             }
         } catch (SQLException ex) {

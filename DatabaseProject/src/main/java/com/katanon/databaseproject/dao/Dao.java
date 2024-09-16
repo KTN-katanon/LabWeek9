@@ -8,6 +8,11 @@ package com.katanon.databaseproject.dao;
  *
  * @author AVI003
  */
-public interface Dao {
+public interface Dao<T> {
+    T get(int id);
+    List<T> getAll();
+    T save(T obj);
+    T update(T obj);
+    int delete(T obj);
     
 }

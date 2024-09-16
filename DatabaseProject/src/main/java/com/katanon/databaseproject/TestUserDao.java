@@ -19,19 +19,23 @@ public class TestUserDao {
         for (User u : userDao.getAll()) {
             System.out.println(u);
         }
-        User user1 = userDao.get(2);
-        System.out.println(user1);
+//        User user1 = userDao.get(2);
+//        System.out.println(user1);
 
 //        User newUser = new User("user3", "password", 2, "F");
 //        User insertedUser = userDao.save(newUser);
 //        System.out.println(insertedUser);
-        user1.setGender("F");
-        userDao.update(user1);
-        User updateUser = userDao.get(user1.getId());
-        System.out.println(updateUser);
+//        user1.setGender("F");
+//        userDao.update(user1);
+//        User updateUser = userDao.get(user1.getId());
+//        System.out.println(updateUser);
         
-        userDao.delete(user1);
-        for (User u : userDao.getAll()) {
+//        userDao.delete(user1);
+//        for (User u : userDao.getAll()) {
+//            System.out.println(u);
+//        }
+        
+        for (User u : userDao.getAll("user_name like 'u%'", " user_name asc, user_gender desc")) {
             System.out.println(u);
         }
         DatabaseHelper.close();

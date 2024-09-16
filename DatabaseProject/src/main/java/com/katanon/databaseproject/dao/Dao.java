@@ -4,9 +4,12 @@
  */
 package com.katanon.databaseproject.dao;
 
+import java.util.List;
+
 /**
  *
  * @author AVI003
+ * @param <T>
  */
 public interface Dao<T> {
     T get(int id);
